@@ -1,12 +1,13 @@
 ###Le mighty Mapping Module main script###
 
 ################################################
-import db, querries, dexSearch
+import db, queries
+from dexSearch import searchWord
 
 def checkDB(word):
 	#Returns true or false
 	global conn, cursor
-	return querries.checkDB(word, cursor)
+	return queries.checkDB(word, cursor)
     
 def checkDex(word):
 	#Return Dex translation
@@ -29,7 +30,8 @@ def getArhaicList():
 	#Get the list from somewhere...
 	#Work in progress...
 	global arhaicList
-	arhaicList = ["mere","pere"]
+	arhaicList = ['aciia', 'întîi', 'păpădie', 'mîncînd', 'popei','popa','basmaua', 'păpușoi','basma','baistruc','tgsfdgfdg','bsma', 'mâna', 'popâi', 'lebeniță']    
+
 
 def translate():
 	#TRANSLATE function
@@ -40,17 +42,17 @@ def translate():
 		#Check for word in DB
 		#If found...
 		if(checkDB(word)):
-		 translation = getMeaning(word)
+			translation = getMeaning(word)
 			#Append translation
 			finalList.append(translation)
 		else:
 			#Otherwise check online on DEX
-			translation = checkDex(word)
+			translation = searchWord(word)
 			#If found...
 			#Append translation
 			finalList.append(translation)
 			#Update DB with found word and translation
-			setMeaning(word,translation)
+			queries.insertWord(word, translation, cursor, conn)
 
 ################## MAIN #####################
 
@@ -63,7 +65,7 @@ def main():
 	#Update final list with translated words
 	translate()
 	#End DB connection
-	db.close()
+	db.close(conn)
 	print(arhaicList)
 	print(finalList)
 
@@ -73,6 +75,8 @@ def main():
 arhaicList = []
 #Final list of translated words
 finalList = []
+#Initializing db-dependent variables
+conn, cursor = None, None
 
 #############################################
 

@@ -10,10 +10,15 @@ def close(conn):
     conn.close()
 
 
-#####CREARE TABEL - e creat deja, daca dai run din nou o sa-ti dea eroare
+# ####LISTARE TABEL
+# conn, cursor = connect('ocr.db')
+# cursor.execute("SELECT word, translation FROM DICT")
+# print(cursor.fetchall())
+# ####CREARE TABEL - e creat deja, daca dai run din nou o sa-ti dea eroare
 # cursor.execute("""CREATE TABLE Dict (
 #             word text,
 #             translation text
 #             )""")
-######deci lasa partea asta comentata^^^^
+# close(conn)
+# #####deci lasa partea asta comentata^^^^
 
