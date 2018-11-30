@@ -1,21 +1,27 @@
 ###Le mighty Mapping Module main script###
 
 ################################################
-#Dunno if these DB functions will remain here
+import db, querries, dexSearch
 
 def checkDB(word):
-	#Could return true or false and translation
-	#return True,"ok"
-	return False, ""
+	#Returns true or false
+	global conn, cursor
+	return querries.checkDB(word, cursor)
     
 def checkDex(word):
-	#Could return true or false and translation
-	#return True,"ok"
-	return True,"ok"
+	#Return Dex translation
+	return dexSearch.searchWord(word)
+	
+def getMeaning(word):
+ #Returns translation from DB of given word
+ global conn, cursor
+ translation = queries.getTranslation(word, cursor)
+ return translation[0]
    
-def setMeaning(word, meaning):
-	#Could update DB with DEX found translation
-	pass
+def setMeaning(word, translation):
+	#Updates DB with given translation
+	global conn, cursor
+	queries.insertWord(word, meaning, cursor, conn)
 
 ################################################
 
@@ -28,37 +34,36 @@ def getArhaicList():
 def translate():
 	#TRANSLATE function
 	#Updates global final list with translated words
-	global arhaicList, finalList
+	global arhaicList, finalList, conn, cursor
 	#Parse through list and seek words' meaning
 	for word in arhaicList:
-		#print(word)
 		#Check for word in DB
-		translation = checkDB(word)
 		#If found...
-		if(translation[0]):
+		if(checkDB(word)):
+		 translation = getMeaning(word)
 			#Append translation
-			finalList.append(translation[1])
+			finalList.append(translation)
 		else:
 			#Otherwise check online on DEX
 			translation = checkDex(word)
 			#If found...
-			if(translation[0]):
-				#Append translation
-				finalList.append(translation[1])
-				#Update DB with found word and translation
-				setMeaning(word,translation[1])
-			else:
-				#Otherwise append nothing
-				finalList.append("?")
+			#Append translation
+			finalList.append(translation)
+			#Update DB with found word and translation
+			setMeaning(word,translation)
 
 ################## MAIN #####################
 
 def main():
-	global arhaicList, finalList
+	global arhaicList, finalList, conn, cursor
 	#Get the arhaic terms list
 	getArhaicList()
+	#Start DB connection
+	conn, cursor = db.connect('ocr.db')
 	#Update final list with translated words
 	translate()
+	#End DB connection
+	db.close()
 	print(arhaicList)
 	print(finalList)
 
