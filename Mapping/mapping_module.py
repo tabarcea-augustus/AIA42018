@@ -32,11 +32,10 @@ def getArhaicList():
 	global arhaicList
 	arhaicList = ['aciia', 'întîi', 'păpădie', 'mîncînd', 'popei','popa','basmaua', 'păpușoi','basma','baistruc','tgsfdgfdg','bsma', 'mâna', 'popâi', 'lebeniță']    
 
-
-def translate():
+def translate(arhaicList):
 	#TRANSLATE function
 	#Updates global final list with translated words
-	global arhaicList, finalList, conn, cursor
+	global finalList, conn, cursor
 	#Parse through list and seek words' meaning
 	for word in arhaicList:
 		#Check for word in DB
@@ -56,14 +55,12 @@ def translate():
 
 ################## MAIN #####################
 
-def main():
-	global arhaicList, finalList, conn, cursor
-	#Get the arhaic terms list
-	getArhaicList()
+def map_words(arhaicList):
+	global finalList, conn, cursor
 	#Start DB connection
 	conn, cursor = db.connect('ocr.db')
 	#Update final list with translated words
-	translate()
+	translate(arhaicList)
 	#End DB connection
 	db.close(conn)
 	print(arhaicList)
@@ -79,6 +76,7 @@ finalList = []
 conn, cursor = None, None
 
 #############################################
-
-main()
-
+if __name__ == '__main__':
+	#Get the arhaic terms list
+	getArhaicList()
+	map_words(arhaicList)
