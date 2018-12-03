@@ -12,8 +12,8 @@ def close(conn):
 
 # ####LISTARE TABEL
 # conn, cursor = connect('ocr.db')
-# cursor.execute("SELECT word, translation FROM DICT")
-# print(cursor.fetchall())
+# # cursor.execute("SELECT word, translation FROM DICT")
+# # print(cursor.fetchall())
 # ####CREARE TABEL - e creat deja, daca dai run din nou o sa-ti dea eroare
 # cursor.execute("""CREATE TABLE Dict (
 #             word text,
