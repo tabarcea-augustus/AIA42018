@@ -2,7 +2,7 @@
 
 ################################################
 import db, queries
-from dexSearch import searchWord
+import dexSearch
 
 def checkDB(word):
 	#Returns true or false
@@ -46,7 +46,7 @@ def translate(arhaicList):
 			finalList.append(translation)
 		else:
 			#Otherwise check online on DEX
-			translation = searchWord(word)
+			translation = checkDex(word)
 			#If found...
 			#Append translation
 			finalList.append(translation)
