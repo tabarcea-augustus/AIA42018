@@ -3,14 +3,9 @@ import sqlite3
 def getTranslation(word, cursor):
     cursor.execute("SELECT translation FROM DICT where word = ?", (word,))
     translation = cursor.fetchone()
-    return translation
-
-def checkDB(word, cursor):
-    cursor.execute("SELECT translation FROM DICT where word = ?", (word,))
-    translation = cursor.fetchone()
-    if translation is not None:
-        return True
-    return False
+    if translation is None:
+        return False, (None,)
+    return True, translation
 
 ##dupa insert-uri, delete-rui, update-uri trebuie sa dai commit (din cate am inteles)
 def updateTranslation(oldword, newword, newt, cursor, conn):
