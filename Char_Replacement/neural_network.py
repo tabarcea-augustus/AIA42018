@@ -142,16 +142,19 @@ if __name__ == '__main__':
     with open('rn_input.json', 'w') as f:
         f.write(json_input)
     if os.path.exists(MODEL_FILE_NAME):
-        rn_model = load_model(MODEL_FILE_NAME)
+        rn_model = keras.models.Sequential()
+        rn_model.add(InputLayer((784,)))
+        rn_model.add(Dropout(0.2))  # inaintea stratului pentru care vrem sa facem drop-out
+        rn_model.add(Dense(100, activation='relu'))
+        rn_model.add(Dense(74, activation='softmax'))
+        rn_model.load_weights(MODEL_FILE_NAME)
     else:
         rn_model = loading_and_training()
-        rn_model.save(MODEL_FILE_NAME)
-    '''
+        rn_model.save_weights(MODEL_FILE_NAME)
     while 1:
         imagename = input("Enter image name: ")
         if imagename == 'exit':
             break
-        expectedoutput = input("Enter expected output: ")
         # thinning_algorithm.processImage(imagename)
         data_to_test = load_image(imagename)
         test_set = [data_to_test]
@@ -162,4 +165,3 @@ if __name__ == '__main__':
         idx = np.argmax(result)
         print(to_latin(idx))
     # print("ExpectedOutput: "+to_latin(result))
-    '''

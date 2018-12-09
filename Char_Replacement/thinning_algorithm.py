@@ -115,8 +115,42 @@ def processImage(imgname):
     # Push the data to image
     nimg.putdata(bwdata)
     nimg.show()
-
+    os.remove(imgname)
     ## And save
-    fp = open(os.path.splitext(imgname)[0]+'_output.jpg', 'w')
+    fp = open(imgname, 'w')
     nimg.save(fp)
     fp.close()
+    return nimg.getdata()
+if __name__=='__main__':
+    for imgname in os.listdir('train_data'):
+      if(not imgname.lower().endswith(".jpg")):
+          continue
+      img = Image.open(os.path.join('train_data',imgname))
+      w, h = img.size
+
+      """ The data is returned as a single array """
+      pixels = list(img.getdata())
+
+      # Create black and white pixel bitmap image
+      nimg = Image.new('1', img.size, -1)
+
+      # Convert source image to black and white pixels
+      bwdata = _getbwdata(img)
+
+      # Run the algorithm until no further modifications are required
+      is_modified = True
+      while is_modified:
+        bwdata, modified1 = do_step(bwdata, img.size, step1_func,w,h)
+        bwdata, modified2 = do_step(bwdata, img.size, step2_func,w,h)
+
+        is_modified = modified1 | modified2
+
+      # Push the data to image
+      nimg.putdata(bwdata)
+      nimg.show()
+      os.remove(os.path.join('train_data',imgname))
+      ## And save
+      s=os.path.splitext(imgname)[0]+'.jpg'
+      fp = open(os.path.join('train_data',s), 'w')
+      nimg.save(fp)
+      fp.close()
