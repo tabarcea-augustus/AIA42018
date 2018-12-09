@@ -1,3 +1,7 @@
+$(".card-header").click(function(){
+	console.log("hello");
+});
+
 $(document).ready(function(){
 	var files = "";
 	var image = "";
@@ -59,4 +63,3 @@ function showUploadButton(){
 	$uploadButton.show();
 	$uploadButton.addClass('elementToFadeInAndOut');
 }
-
