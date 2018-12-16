@@ -1,6 +1,36 @@
 from dexUtils import *
 import urllib.request as urllib2
 
+def getOccurrencesDic(word):
+    dic = {}
+    for i in word:
+        if i not in dic:
+            dic[i]=1
+        else:
+            dic[i]+=1
+    return dic
+
+def getAccuracyCompared(firstDic,secondDic):
+    accuracyList = []
+    for i in firstDic:
+        current = 0
+        if i not in secondDic:
+            current = 0.0
+        else:
+            if firstDic[i]>secondDic[i]:
+                current = secondDic[i]/firstDic[i]
+            else:
+                current = firstDic[i]/secondDic[i]
+        accuracyList.append(current)
+    return float(sum(accuracyList)/len(firstDic))
+
+
+def checkAccuracy(firstWord,secondWord):
+    firstDic = getOccurrencesDic(firstWord)
+    secondDic = getOccurrencesDic(secondWord)
+    return min(getAccuracyCompared(firstDic,secondDic),getAccuracyCompared(secondDic,firstDic))*100
+    
+
 def searchWord(search_word, flag=1):
     '''
     Function which searches for search_word on dexonline.ro
@@ -62,6 +92,5 @@ if __name__ == '__main__':
     word_list = ['întîi', 'păpădie', 'mîncînd', 'popei','popa','basmaua', 'păpușoi','basma','baistruc','tgsfdgfdg','bsma', 'mâna', 'popâi', 'lebeniță']    
     for i in word_list:
         print(searchWord(i))
-
 
 
