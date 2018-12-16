@@ -28,7 +28,7 @@ def getArhaicList():
     # Get the list from somewhere...
     # Work in progress...
     global arhaicList
-    arhaicList = ['aciia', 'întîi', 'păpădie', 'mîncînd', 'popei', 'popa', 'basmaua', 'păpușoi', 'basma', 'baistruc',
+    arhaicList = ['cuvantfrumos', 'aciia', 'întîi', 'păpădie', 'mîncînd', 'popei', 'popa', 'basmaua', 'păpușoi', 'basma', 'baistruc',
                   'tgsfdgfdg', 'bsma', 'mâna', 'popâi', 'lebeniță']
 
 
@@ -53,6 +53,9 @@ def translate(arhaicList):
             if translation != False:
                 finalList.append(translation)
             else:
+                # words = dexSearch.split_words(word)
+                # finalList.append(words[0])
+                # finalList.append(words[1])
                 finalList.append(word)
             # Update DB with found word and translation
             queries.insertWord(word, translation, cursor, conn)
