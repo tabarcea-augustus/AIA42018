@@ -50,7 +50,10 @@ def translate(arhaicList):
             translation = checkDex(word)
             # If found...
             # Append translation
-            finalList.append(translation)
+            if translation != False:
+                finalList.append(translation)
+            else:
+                finalList.append(word)
             # Update DB with found word and translation
             queries.insertWord(word, translation, cursor, conn)
 

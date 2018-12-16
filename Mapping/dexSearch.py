@@ -20,7 +20,7 @@ def searchWord(search_word, flag=1):
         definitii = getListDefinitii(contents)
     except urllib2.HTTPError as e:
         # print("wrong word: "+search_word)
-        return search_word
+        return False
 
     timesH3 = contents.count('<h3>')
     if timesH3 == 1:
@@ -37,7 +37,7 @@ def searchWord(search_word, flag=1):
                 return search_word
             else:
                 # print("unknown case")
-                return search_word
+                return False
     else:
         if inDeclinari(search_word,contents):
             # print("word found3: "+search_word)
@@ -53,7 +53,7 @@ def searchWord(search_word, flag=1):
     if search_word != new_search_word:
         # print("re-search for: " + new_search_word)
         return searchWord(new_search_word, flag)
-    return search_word
+    return False # nu a mers nicio metoda
 
 if __name__ == '__main__':
     '''
