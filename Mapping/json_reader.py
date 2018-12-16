@@ -10,4 +10,4 @@ def getListOfWords(json_file):
         wordsList.append(word)
     return wordsList
 
-print(getListOfWords("./tests/test.json"))
+#print(getListOfWords("./tests/test.json"))
