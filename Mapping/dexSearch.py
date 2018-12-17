@@ -22,14 +22,35 @@ def getAccuracyCompared(firstDic,secondDic):
             else:
                 current = firstDic[i]/secondDic[i]
         accuracyList.append(current)
-    return float(sum(accuracyList)/len(firstDic))
+    return float(sum(accuracyList)/sum(firstDic.values()))
 
 
 def checkAccuracy(firstWord,secondWord):
     firstDic = getOccurrencesDic(firstWord)
     secondDic = getOccurrencesDic(secondWord)
     return min(getAccuracyCompared(firstDic,secondDic),getAccuracyCompared(secondDic,firstDic))*100
-    
+
+
+def split_words(text):
+    accuracy = [0,0]
+    words = ["",""]
+    for i in range(1, len(text)):
+        word1 = text[:i]
+        word2 = text[i:]
+        # print("W {} {}".format(word1, word2))
+
+        s1 = searchWord(word1)
+        s2 = searchWord(word2)
+        # print("R {} {}".format(s1,s2))
+        
+        accuracy1 = checkAccuracy(word1, word1 if s1 == False else s1 )
+        accuracy2 = checkAccuracy(word2, word2 if s2 == False else s2)
+        # print("A {} {}".format(accuracy1,accuracy2))
+
+        if accuracy1 >= accuracy[0] and accuracy2 >= accuracy[1]:
+            accuracy[0], accuracy[1] = accuracy1, accuracy2
+            words[0], words[1] = word1, word2
+    return words
 
 def searchWord(search_word, flag=1):
     '''
@@ -54,7 +75,7 @@ def searchWord(search_word, flag=1):
 
     timesH3 = contents.count('<h3>')
     if timesH3 == 1:
-        suggested_word = getSugestii(searchWord,contents)
+        suggested_word = getSugestii(search_word,contents)
         # print("suggested word: "+suggested_word)
         return suggested_word
     elif timesH3 == 2:
@@ -89,8 +110,9 @@ if __name__ == '__main__':
     '''
     Testing purposes.
     '''
+    print(split_words("cuvantfrumos"))
     word_list = ['întîi', 'păpădie', 'mîncînd', 'popei','popa','basmaua', 'păpușoi','basma','baistruc','tgsfdgfdg','bsma', 'mâna', 'popâi', 'lebeniță']    
     for i in word_list:
         print(searchWord(i))
-
+    
 

@@ -29,7 +29,7 @@ def getListSugestii(contents):
     Returns list of possible words from the contents passage.
     dexonline.ro/intrare/{word}
     '''
-    exp = re.compile('"/intrare/(\w+)/[0-9]+"')
+    exp = re.compile(u'"/intrare/(\w+)/[0-9]+"', re.UNICODE)
     possible_words = re.findall(exp,contents)
     return possible_words
 
@@ -64,4 +64,7 @@ def getSugestii(word,contents):
     listBAN = ['<span>','</span>']
     found_soup = superDELETE(listBAN,found_soup)
     
-    return getListSugestii(found_soup)[0]
+    suggestions = getListSugestii(found_soup)
+    if len(suggestions) >= 1:
+        return suggestions[0]
+    return word

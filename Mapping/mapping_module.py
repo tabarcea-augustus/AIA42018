@@ -3,6 +3,7 @@
 ################################################
 import db, queries
 import dexSearch
+import json_reader
 
 def checkDex(word):
     # Return Dex translation
@@ -28,8 +29,9 @@ def getArhaicList():
     # Get the list from somewhere...
     # Work in progress...
     global arhaicList
-    arhaicList = ['aciia', 'întîi', 'păpădie', 'mîncînd', 'popei', 'popa', 'basmaua', 'păpușoi', 'basma', 'baistruc',
+    arhaicList = ['cuvantfrumos', 'aciia', 'întîi', 'păpădie', 'mîncînd', 'popei', 'popa', 'basmaua', 'păpușoi', 'basma', 'baistruc',
                   'tgsfdgfdg', 'bsma', 'mâna', 'popâi', 'lebeniță']
+    # arhaicList = json_reader.getListOfWords("./tests/test.json")
 
 
 def translate(arhaicList):
@@ -53,6 +55,9 @@ def translate(arhaicList):
             if translation != False:
                 finalList.append(translation)
             else:
+                # words = dexSearch.split_words(word)
+                # finalList.append(words[0])
+                # finalList.append(words[1])
                 finalList.append(word)
             # Update DB with found word and translation
             queries.insertWord(word, translation, cursor, conn)
