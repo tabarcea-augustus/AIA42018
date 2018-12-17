@@ -1,4 +1,7 @@
 
+/* varianta v2.0 inserted below ----------------------------------------------------------------------------------------------------------------- */
+
+
 @import url('https://fonts.googleapis.com/css?family=Pacifico|Permanent+Marker|Roboto|Righteous');
 
 body{
@@ -220,7 +223,7 @@ body{
 }
 
 footer{
-    background-image: url("../images/footer3.jpg");
+    background-image: url(footer3.jpg);
     background-size: cover;
     color: white;
     border-top: 2px solid #4C2981;
@@ -228,3 +231,8 @@ footer{
 }
 
 
+/* ------------------------------------------------------------------------------------------------------------------------------------------------- */
+canvas {
+    cursor: crosshair;
+    border: 10px solid red;
+}
