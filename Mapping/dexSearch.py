@@ -28,6 +28,8 @@ def getAccuracyCompared(firstDic,secondDic):
 def checkAccuracy(firstWord,secondWord):
     firstDic = getOccurrencesDic(firstWord)
     secondDic = getOccurrencesDic(secondWord)
+    if sum(firstDic.values()) < sum(secondDic.values()):
+        firstDic, secondDic = secondDic, firstDic
     return min(getAccuracyCompared(firstDic,secondDic),getAccuracyCompared(secondDic,firstDic))*100
 
 
@@ -37,7 +39,7 @@ def split_words(text):
     for i in range(1, len(text)):
         word1 = text[:i]
         word2 = text[i:]
-        # print("W {} {}".format(word1, word2))
+        print("W {} {}".format(word1, word2))
 
         s1 = searchWord(word1)
         s2 = searchWord(word2)
@@ -81,6 +83,8 @@ def searchWord(search_word, flag=1):
     elif timesH3 == 2:
         if contents.count(search_word) == 0:
             # print("redirect to : "+definitii[0])
+            if len(definitii) == 0:
+                return False
             return definitii[0]
         else:
             if inDeclinari(search_word,contents):

@@ -5,9 +5,9 @@ def getListOfWords(json_file):
     wordsList = []
     with open(json_file) as input:
         data = json.load(input)
-    for x in range(len(data)):
-        word = data[x]['letters']
-        wordsList.append(word)
+    # for x in range(len(data)):
+        word = data['letters'].split(" ")
+        wordsList.extend(word)
     return wordsList
 
 #print(getListOfWords("./tests/test.json"))
