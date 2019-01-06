@@ -80,6 +80,7 @@ def map_words(json_path):
     db.close(conn)
     print(arhaicList)
     print(finalList)
+    return finalList
 
 
 #############################################
