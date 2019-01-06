@@ -66,7 +66,9 @@ def translate(arhaicList):
 
 ################## MAIN #####################
 
-def map_words(arhaicList):
+def map_words(json_path):
+    arhaicList = json_path
+    # arhaicList = json_reader.getListOfWords(json_path)
     global finalList, conn, cursor
     # Start DB connection
     conn, cursor = db.connect('ocr.db')
