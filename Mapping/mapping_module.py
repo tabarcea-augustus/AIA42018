@@ -4,6 +4,7 @@
 import db, queries
 import dexSearch
 import json_reader
+import hardcodeDB
 
 def checkDex(word):
     # Return Dex translation
@@ -69,6 +70,8 @@ def map_words(arhaicList):
     global finalList, conn, cursor
     # Start DB connection
     conn, cursor = db.connect('ocr.db')
+    # Update DB with hardcoded pairs of words and translations
+    # hardcodeDB.updateDB(conn, cursor)
     # Update final list with translated words
     translate(arhaicList)
     # End DB connection
