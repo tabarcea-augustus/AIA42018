@@ -67,8 +67,8 @@ def translate(arhaicList):
 ################## MAIN #####################
 
 def map_words(json_path):
-    arhaicList = json_path
-    # arhaicList = json_reader.getListOfWords(json_path)
+    # arhaicList = json_path
+    arhaicList = json_reader.getListOfWords(json_path)
     global finalList, conn, cursor
     # Start DB connection
     conn, cursor = db.connect('ocr.db')
@@ -95,5 +95,5 @@ conn, cursor = None, None
 #############################################
 if __name__ == '__main__':
     # Get the arhaic terms list
-    getArhaicList()
-    map_words(arhaicList)
+    # getArhaicList()
+    map_words('F:/F A C U L T A T E/AI/AIA42018/Mapping/tests/test.json')
