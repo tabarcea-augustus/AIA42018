@@ -1,5 +1,5 @@
 ##Module that deals with json data
-import json
+import json, re
 
 decoder = json.JSONDecoder()
 
@@ -7,9 +7,22 @@ def getListOfWords(json_file):
     wordsList = []
     json_data=open(json_file).read()
     data = decoder.decode(json_data)
-# for x in range(len(data)):
-    word = data[0]['letters'].split(" ")
-    wordsList.extend(word)
+
+    #Creating new list containing all words from json file
+    words = data[0]['letters'].split(" ")
+
+    #Now, parsing through the list...
+    for word in words:
+        newword = ""
+        for i in range(len(word)):
+            # Char "#" is ignored
+            # Pairs as "Zh","ch"..etc are replaced with "Z","c"..etc
+            if (str.isalpha(word[i]) and not((word[i] == "h" and word[i-1] != "#"))):
+                newword += word[i]
+        # print(newword)
+        wordsList.append(newword)
+
+    print(words)
     return wordsList
 
-print(getListOfWords('F:/F A C U L T A T E/AI/AIA42018/Mapping/tests/test.json'))
+print(getListOfWords('./tests/test.json'))
