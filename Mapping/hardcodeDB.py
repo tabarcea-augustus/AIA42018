@@ -36,7 +36,5 @@ def updateDB(conn, cursor):
     for word in wikiDict.keys():
         meaning = wikiDict[word]
         #Inserting pair...
-        #queries.insertWord(word, meaning)
-        print (word, meaning)
-
-#updateDB()
+        queries.insertWord(word, meaning)
+        # print (word, meaning)

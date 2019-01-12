@@ -1,5 +1,5 @@
 ##Module that deals with json data
-import json, re
+import json
 
 decoder = json.JSONDecoder()
 
