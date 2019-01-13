@@ -71,9 +71,12 @@ def letterSegm(path):
             #     parcurge pana cand dai din nou de o coloana gri
             #     salveaza pixelii dintre cele 2 coloane gri
 
-        im.save('modified_Line_1.jpg')
+        print(path)
+        print(path.split('/')[-1][5:10])
+        im.save('OutputForModule3/img/modified_Line_' + path.split('/')[-1][5:12] + '.jpg')
         data = {'size': len(letterList), 'letters': letterList}
-        with open('line_'+path[-6:-4]+'.json', 'w') as outfile:
+        print(path[-6:-4])
+        with open('OutputForModule3/json/line_'+path.split('/')[-1][5:12]+'.json', 'w') as outfile:
             json.dump(data, outfile)
 
 

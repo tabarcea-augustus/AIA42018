@@ -183,10 +183,10 @@ $(document).ready(function () {
 
 									//ASTA TRIMIT PE SERVER, AICEA SUNT COORDONATELE, PRESTO!!! CRESCENDO!!!
 
-									// console.log(index, '<== index,coord ==>', listagus[index].last_m_x / 23 * 100,
-									// 	listagus[index].last_m_y / 23 * 100,
-									// 	(listagus[index].gaz + listagus[index].last_m_x) / 23 * 100,
-									// 	(listagus[index].heightx + listagus[index].last_m_y) / 23 * 100);
+									console.log(index, '<== index,coord ==>', listagus[index].last_m_x / 23 * 100,
+										listagus[index].last_m_y / 23 * 100,
+										(listagus[index].gaz + listagus[index].last_m_x) / 23 * 100,
+										(listagus[index].heightx + listagus[index].last_m_y) / 23 * 100);
 
 								}
 
@@ -221,7 +221,14 @@ $(document).ready(function () {
 
 	//
 	$('#uploadForm').on('submit', function (event) {
-		event.preventDefault();
+        event.preventDefault();
+        
+        for (var index = 0; index < listagus.length; index++) {
+            listagus[index].last_m_x = Math.round(listagus[index].last_m_x / 23 * 100);
+            listagus[index].last_m_y = Math.round(listagus[index].last_m_y / 23 * 100);
+            listagus[index].gaz = Math.round(listagus[index].gaz / 23 * 100);
+            listagus[index].heightx = Math.round(listagus[index].heightx / 23 * 100);
+        }
 
 		var formData = new FormData();
 		formData.append("file", imaginesmexy);

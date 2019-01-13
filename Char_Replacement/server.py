@@ -1,5 +1,8 @@
 from flask import Flask
-import neural_network as nn
+import sys
+from os import path
+sys.path.append(path.abspath('../'))
+from Char_Replacement import neural_network as nn
 import os
 import json
 import keras
