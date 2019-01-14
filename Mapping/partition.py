@@ -80,4 +80,4 @@ def segmentWord(word):
             print("Best search: ",i,' => ',' '.join(map(str,i)),' cu ',wordMap[i])
     return ''.join(map(str,max))
     
-segmentWord(initial_part)
+# segmentWord(initial_part)

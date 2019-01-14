@@ -9,7 +9,7 @@ def getListOfWords(json_file):
     data = decoder.decode(json_data)
 
     #Creating new list containing all words from json file
-    words = data[0]['letters'].split(" ")
+    words = data['letters'].split(" ")
 
     #Now, parsing through the list...
     for word in words:
@@ -25,4 +25,4 @@ def getListOfWords(json_file):
     print(words)
     return wordsList
 
-print(getListOfWords('./tests/test.json'))
+# print(getListOfWords('./tests/test.json'))

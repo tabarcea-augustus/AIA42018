@@ -5,6 +5,7 @@ import db, queries
 import dexSearch
 import json_reader
 import hardcodeDB
+from partition import segmentWord
 
 def checkDex(word):
     # Return Dex translation
@@ -59,7 +60,8 @@ def translate(arhaicList):
                 # words = dexSearch.split_words(word)
                 # finalList.append(words[0])
                 # finalList.append(words[1])
-                finalList.append(word)
+                item = [[letter] for letter in word]
+                finalList.append(segmentWord(item))
             # Update DB with found word and translation
             queries.insertWord(word, translation, cursor, conn)
 
@@ -96,4 +98,4 @@ conn, cursor = None, None
 if __name__ == '__main__':
     # Get the arhaic terms list
     # getArhaicList()
-    map_words('F:/F A C U L T A T E/AI/AIA42018/Mapping/tests/test.json')
+    map_words('E:\\Facultate\\AI\\Proiect\\AIA42018\\Mapping\\tests\\test.json')
