@@ -1,4 +1,7 @@
-import db, queries
+import  sys
+from os import  path
+sys.path.append(path.abspath('../'))
+from Mapping import db, queries
 
 wikiDict = { 
             #WikiSource

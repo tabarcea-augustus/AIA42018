@@ -1,3 +1,6 @@
+import  sys
+from os import  path
+sys.path.append(path.abspath('../'))
 import urllib
 import urllib.request as urllib2
 import re

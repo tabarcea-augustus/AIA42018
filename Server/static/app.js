@@ -251,6 +251,10 @@ $(document).ready(function () {
 
 		request.done(function (msg) {
 			$("#log").html(msg);
+			console.log(msg);
+			$( "#gusPlaceHolderResponseImage" )[0].hidden = true;
+			$( "#gusResponseFromServer" )[0].hidden = false;
+			$( "#gusResponseFromServerParagraph" )[0].innerHTML = msg;
 		});
 
 		request.fail(function (jqXHR, textStatus) {

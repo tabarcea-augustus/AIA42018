@@ -1,5 +1,8 @@
 # coding=utf-8
-from dexUtils import *
+import  sys
+from os import  path
+sys.path.append(path.abspath('../'))
+from Mapping.dexUtils import *
 import urllib.request as urllib2
 def getOccurrencesDic(word):
     dic = {}

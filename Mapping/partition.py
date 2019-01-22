@@ -1,4 +1,7 @@
-from dexSearch import *
+import  sys
+from os import  path
+sys.path.append(path.abspath('../'))
+from Mapping.dexSearch import *
 word = "odata"
 initial_part = [[letter] for letter in word]
 words = [''.join(element) for element in initial_part] #transformare lista de partitii in lista de cuvinte formate din partitii

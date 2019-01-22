@@ -39,12 +39,11 @@ def servesteMiCererea():
 
         files = {'file' : open("imageToSave.png", "rb")}
 
-    directoryOutputModule1 = "/home/augt/Public/AI Repo/AIA42018/Server/OutputForModule2"
+    directoryOutputModule1 = "./OutputForModule2"
 
     #delete stuffs------------------------------------------------------------------------------------------------------
-    folder = directoryOutputModule1
-    for the_file in os.listdir(folder):
-        file_path = os.path.join(folder, the_file)
+    for the_file in os.listdir(directoryOutputModule1):
+        file_path = os.path.join(directoryOutputModule1, the_file)
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
@@ -52,9 +51,9 @@ def servesteMiCererea():
         except Exception as e:
             print(e)
 
-    folder = "/home/augt/Public/AI Repo/AIA42018/Server/OutputForModule3/img"
-    for the_file in os.listdir(folder):
-        file_path = os.path.join(folder, the_file)
+    directoryOutputModule2_img = "./OutputForModule3/img"
+    for the_file in os.listdir(directoryOutputModule2_img):
+        file_path = os.path.join(directoryOutputModule2_img, the_file)
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
@@ -62,9 +61,19 @@ def servesteMiCererea():
         except Exception as e:
             print(e)
 
-    folder="/home/augt/Public/AI Repo/AIA42018/Server/OutputForModule3/json"
-    for the_file in os.listdir(folder):
-        file_path = os.path.join(folder, the_file)
+    directoryOutputModule2_json="./OutputForModule3/json"
+    for the_file in os.listdir(directoryOutputModule2_json):
+        file_path = os.path.join(directoryOutputModule2_json, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path): shutil.rmtree(file_path)
+        except Exception as e:
+            print(e)
+
+    directoryOutputModule3 = "./OutputForModule4"
+    for the_file in os.listdir(directoryOutputModule3):
+        file_path = os.path.join(directoryOutputModule3, the_file)
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
@@ -74,7 +83,9 @@ def servesteMiCererea():
 
     #-------------------------------------------------------------------------------------------------------------------
     sys.path.append(path.abspath('../'))
-    from Letter_Segmentation import letterSegmentation
+    from Letter_Segmentation import letterSegmentation as module2
+    from Char_Replacement import server as module3
+    from Mapping import mapping_module as module4
 
     #Line Seg
     print(coordString)
@@ -100,36 +111,46 @@ def servesteMiCererea():
     for filename in os.listdir(directoryOutputModule1):
         if filename.endswith(".jpg") or filename.endswith(".png"):
             filepath = os.path.join(directoryOutputModule1, filename)
-            letterSegmentation.letterSegm(filepath)
+            module2.letterSegm(filepath)
 
             continue
         else:
             continue
 
+    #Char Rep
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    # for filename in os.listdir(directoryOutputModule2_json):
+    #     if filename.endswith(".json"):
+    #         filepath = os.path.join(directoryOutputModule2_json, filename)
+    #         print(filepath)
+    #         files = {'file': open(filepath, "r")}
+    #         result = requests.post('http://127.0.0.1:5666/analyze_letters', files=files, data={}).content
+    #         print(token)
+    #         break
+    module3.main()
+    print('DONE')
 
-
-    # archive = ZipFile(lineArchive, 'r')
-    # files = archive.namelist()
-    # jsons = []
-    # with ZipFile(lineArchive) as myzip:
-    #     for file in files:
-    #          with myzip.open(file) as myfile:
-    #             jsons.append(requests.post('127.0.0.1:5001/charSplit', data = {'image':file.read()}).content)
-
-    # #Char Rep
-    # lineNewRoms = []
-    # for jsonOne in jsons:
-    #     jsonOneX = json.load(jsonOne)
-    #     lineNewRoms.append(requests.post('127.0.0.1:5002/RN', data = {'json':jsonOneX}).content)
 
     # #Mapping
     # text = []
     # for lineNewRom in lineNewRoms:
     #     text.append(requests.post('127.0.0.1:5003/Mapping', data = {'text':lineNewRom}).content)
-    return "abc";
+    result = ""
+    module4ListResult = []
+    for filename in os.listdir(directoryOutputModule3):
+        if filename.endswith(".json"):
+            filepath = os.path.join(directoryOutputModule3, filename)
+            print("MODULE 4: " ,filepath)
+            module4ListResult = module4.map_words(filepath)
+            for cuvant in module4ListResult:
+                result += " "
+                result += cuvant
+
+    print(result)
+    return result
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8080, ssl_context=('cert.pem', 'key.pem'))
 
     #char_seg accent verificat
     #RN ambiguitate cu in im

@@ -41,6 +41,16 @@ def init():
         rn_model = nn.loading_and_training()
         rn_model.save_weights(os.path.join(app.static_folder, MODEL_FILE_NAME))
 
+def main():
+    init()
+    count =0
+    count = 0
+    source_path = r"../Server/OutputForModule3/json"
+    result_path = "../Server/OutputForModule4"
+    for img in os.listdir(source_path):
+        with open(os.path.join(source_path,img), "r") as file:
+            analyze_letters(file,count,result_path)
+            count += 1
 
 if __name__ == '__main__':
     init()
@@ -50,8 +60,8 @@ if __name__ == '__main__':
     #     with open(os.path.join(r"D:\College_stuff\AN_3_Sem_1\IA\output\zona2",path),"r") as file:
     #         analyze_letters(file,count)
     count = 0
-    source_path = r"D:\College_stuff\AN_3_Sem_1\IA\output\zona1"
-    result_path = "DESTINATIA"
+    source_path = r"../Server/OutputForModule3/json"
+    result_path = "../Server/OutputForModule4"
     for img in os.listdir(source_path):
         with open(os.path.join(result_path,img), "r") as file:
             analyze_letters(file,count,result_path)
