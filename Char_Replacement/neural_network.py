@@ -7,7 +7,6 @@ import keras
 import numpy as np
 from keras.layers import InputLayer, Dense, Dropout
 
-
 MODEL_FILE_NAME = 'my_model.h5'
 
 
@@ -17,31 +16,44 @@ def load_image(imagename):
     img = img.reshape(784)
     return img
 
+
+def transform_images_to_json(input_folder, output_location_file):
+    train_x = []
+    for file in os.listdir(input_folder):
+        c_file = os.path.join(input_folder, file)
+        image = load_image(c_file)
+        image = image.astype('float32')
+        image /= 255
+        train_x.append(image.tolist())
+    c_len = train_x
+    json_output = json.dumps({'size': c_len, 'letters': train_x}, ensure_ascii=False)
+    with open(output_location_file, 'w') as f:
+        f.write(json_output)
+
+
 def loading_and_training():
     def load_database():
         train_x = []
         train_y = []
-        for file in os.listdir(os.path.join("train_data",os.path.join("Base-Data",os.path.join("BlurredImages", "ResultImages")))):
-            print(file)
-            image = load_image(
-                os.path.join("train_data",os.path.join("Base-Data", os.path.join("BlurredImages", os.path.join("ResultImages", file)))))
+        for file in os.listdir("training_data"):
+            image = load_image(os.path.join("training_data", file))
             image = image.astype('float32')
             image /= 255
             train_x.append(image)
-            train_y.append(int(file[0:2]))
+            train_y.append(int(file.split('_')[0]))
         train_x = np.asarray(train_x)
         train_y = np.asarray(train_y)
-        return (train_x, train_y)
+        return train_x, train_y
 
     train_set = load_database()
     x_train = train_set[0]
-    y_train = keras.utils.to_categorical(train_set[1], num_classes=113)
+    y_train = keras.utils.to_categorical(train_set[1], num_classes=99)
 
     model = keras.models.Sequential()
     model.add(InputLayer((784,)))
     model.add(Dropout(0.2))  # inaintea stratului pentru care vrem sa facem drop-out
-    model.add(Dense(250, activation='relu'))
-    model.add(Dense(113, activation='softmax'))
+    model.add(Dense(200, activation='relu'))
+    model.add(Dense(99, activation='softmax'))
     model.compile(optimizer=keras.optimizers.RMSprop(lr=0.005), loss='categorical_crossentropy', metrics=["accuracy"])
     model.fit(x_train, y_train, epochs=15, batch_size=1000)
 
@@ -53,13 +65,13 @@ def loading_and_training():
 # vezi link https://www.loc.gov/catdir/cpso/romanization/romanian.pdf?fbclid=IwAR25XPRClR-Mjf1xjw7k74lavdacloR0xm8MWvhytk81NpeaeaV_dqabEXM
 # de refacut baza de date (de rulat scriptul de blur in noul folder Base-Data)
 # reantrenat reteaua
-cyrillic_translit = {0:'0',1:'1',
-                     2:'2',3:'3',
-                     4:'4',5:'5',
-                     6:'6',7:'7',
-                     8:'8',9:'9',
+cyrillic_translit = {0: '0', 1: '1',
+                     2: '2', 3: '3',
+                     4: '4', 5: '5',
+                     6: '6', 7: '7',
+                     8: '8', 9: '9',
                      10: 'A', 11: 'a',
-                     12: 'B', 13:'b',
+                     12: 'B', 13: 'b',
                      14: 'V', 15: 'v',
                      16: 'G', 17: 'g',
                      18: 'D', 19: 'd',
@@ -78,7 +90,7 @@ cyrillic_translit = {0:'0',1:'1',
                      44: 'P', 45: 'p',
                      46: 'R', 47: 'r',
                      48: 'S', 49: 's',
-                     50: 'T', 51: 't',
+                     50: 't', 51: 't',
                      52: 'U', 53: 'u',
                      54: 'F', 55: 'f',
                      56: 'H', 57: 'h',
@@ -88,20 +100,21 @@ cyrillic_translit = {0:'0',1:'1',
                      64: 'Ș', 65: 'ș',
                      66: "Șt", 67: "șt",
                      68: 'Y', 69: 'y',
-                     70: "'", 71:"'",
-                     72: 'Ea', 73:'ea',
-                     74: 'Iu', 75:'iu',
-                     76: 'Ia', 77:'ia',
-                     78: 'Ie', 79:'ie',
-                     80: 'Iha', 81:'Iha',
-                     82: 'Â', 83:'â',
-                     84: 'X', 85:'x',
-                     86: 'Ps', 87:'ps',
-                     88: 'Th', 89:'th',
-                     90: 'Yh', 91:'yh',
-                     92: 'Î', 93:'î',
-                     94: 'Gh', 95:'gh',
-                     96: ' '}
+                     70: "'", 71: "'",
+                     72: 'Ea', 73: 'ea',
+                     74: 'Iu', 75: 'iu',
+                     76: 'Ia', 77: 'ia',
+                     78: 'Ie', 79: 'ie',
+                     80: 'Iha', 81: 'Iha',
+                     82: 'Â', 83: 'â',
+                     84: 'X', 85: 'x',
+                     86: 'Ps', 87: 'ps',
+                     88: 'Th', 89: 'th',
+                     90: 'Yh', 91: 'yh',
+                     92: 'Î', 93: 'î',
+                     94: 'Gh', 95: 'gh',
+                     96: ' ',
+                     97: 'Ă', 98: 'ă'}
 
 
 # pentru fiecare litera vom asocia un index (corespunzator pozitiei)
@@ -128,7 +141,7 @@ def to_latin(number):
 
 
 def is_space(letter):
-    return sum([1 for lx in letter if lx == 1.0]) < 6
+    return sum([1 for lx in letter if lx == 1.0]) < 10
 
 
 def validate_network(rn_model, letters):
@@ -150,10 +163,10 @@ def validate_network(rn_model, letters):
 
 
 if __name__ == '__main__':
-    #images = [r'D:\College_stuff\AN_3_Sem_1\IA\proiect\OCR-manuscripts\Utils_for_DB\BlurredImages\test1-1.jpg']
-    #pixels = [np.array(load_image(img) / 255).tolist() for img in images]
-    #json_input = json.dumps({'size': len(pixels), 'letters': pixels})
-    #with open('rn_input.json', 'w') as f:
+    # images = [r'D:\College_stuff\AN_3_Sem_1\IA\proiect\OCR-manuscripts\Utils_for_DB\BlurredImages\test1-1.jpg']
+    # pixels = [np.array(load_image(img) / 255).tolist() for img in images]
+    # json_input = json.dumps({'size': len(pixels), 'letters': pixels})
+    # with open('rn_input.json', 'w') as f:
     #    f.write(json_input)
     if os.path.exists(MODEL_FILE_NAME):
         rn_model = keras.models.Sequential()
